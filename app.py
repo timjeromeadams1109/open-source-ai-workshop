@@ -17,39 +17,139 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS (Apple-inspired minimal UI)
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        padding: 1rem;
-    }
-    .lab-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem;
-        border-radius: 10px;
-        color: white;
-        margin: 0.5rem 0;
-    }
-    .status-ready {
-        color: #00ff00;
-        font-weight: bold;
-    }
-    .status-pending {
-        color: #ffaa00;
-        font-weight: bold;
-    }
-    .code-block {
-        background: #1e1e1e;
-        padding: 1rem;
-        border-radius: 5px;
-        font-family: monospace;
-    }
+:root {
+    --bg: #f5f5f7;
+    --panel: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --border: #d2d2d7;
+    --primary: #0071e3;
+}
+html, body, [class*="block-container"] {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+}
+[data-testid="stSidebar"] {
+    background: #ffffff;
+    border-right: 1px solid var(--border);
+}
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+.hero {
+    text-align: center;
+    padding: 2.5rem 0 2rem;
+}
+.hero-title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+.hero-subtitle {
+    margin-top: 0.45rem;
+    color: var(--muted);
+    font-size: 1.1rem;
+}
+.hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+.cta {
+    padding: 0.78rem 1.6rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.cta.primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(0, 113, 227, 0.3);
+}
+.cta.primary:hover { filter: brightness(1.03); }
+.cta.secondary {
+    background: rgba(0,0,0,0.02);
+    color: var(--text);
+    border-color: var(--border);
+}
+.cta.secondary:hover { border-color: var(--muted); }
+.surface {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1.4rem 1.6rem;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.04);
+}
+.lab-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.04);
+    margin-bottom: 1rem;
+}
+.lab-card h4 {
+    margin: 0 0 0.35rem 0;
+}
+.lab-card p, .lab-card li {
+    color: var(--muted);
+}
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 1.5rem 0 0.6rem 0;
+}
+.metric-row [data-testid="stMetricValue"] {
+    color: var(--text);
+    font-size: 1.35rem;
+}
+.metric-row [data-testid="stMetricLabel"] {
+    color: var(--muted);
+}
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.5rem;
+}
+.stTabs [data-baseweb="tab"] {
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+}
+.stButton>button {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 999px;
+    border: 1px solid var(--primary);
+    padding: 0.5rem 1.2rem;
+    font-weight: 600;
+}
+.stButton>button:hover { filter: brightness(1.04); }
+.code-block {
+    background: #111;
+    padding: 1rem;
+    border-radius: 10px;
+    font-family: "SFMono-Regular", Menlo, monospace;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+table th, table td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -87,16 +187,22 @@ def get_ollama_models():
 
 # Home page
 if page == "🏠 Home":
-    st.markdown('<h1 class="main-header">🤖 Open Source AI Workshop</h1>', unsafe_allow_html=True)
-
-    st.markdown("""
-    ### Welcome to the Zero-Cost AI Workshop!
-
-    This workshop teaches you to build AI applications using **100% open-source tools**
-    running locally on your machine. No API keys, no cloud bills, complete privacy.
-    """)
+    st.markdown(
+        """
+        <div class="hero">
+            <p class="hero-title">Open Source AI Workshop</p>
+            <p class="hero-subtitle">Say hello to your local-first AI lab. Build, fine-tune, and ship without cloud costs.</p>
+            <div class="hero-actions">
+                <a class="cta primary" href="#labs">Start learning</a>
+                <a class="cta secondary" href="#playground">Jump to playground</a>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     # Status check
+    st.markdown('<div class="section-title">Today\'s status</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
 
     ollama_ok, ollama_msg = check_ollama()
@@ -112,58 +218,78 @@ if page == "🏠 Home":
     st.markdown("---")
 
     # Lab cards
-    st.markdown("### 📚 Workshop Labs")
+    st.markdown('<div id="labs" class="section-title">📚 Workshop labs</div>', unsafe_allow_html=True)
+    lab_cards = [
+        {
+            "title": "Lab 1: Text Generation",
+            "points": [
+                "Generate text with local LLMs",
+                "Code generation & explanation",
+                "Streaming responses",
+                "Tools: Ollama, Llama 3.2",
+            ],
+        },
+        {
+            "title": "Lab 2: RAG",
+            "points": [
+                "Build a knowledge base",
+                "Semantic search",
+                "Answer questions from documents",
+                "Tools: ChromaDB, embeddings",
+            ],
+        },
+        {
+            "title": "Lab 3: Model Customization",
+            "points": [
+                "Fine-tune with QLoRA",
+                "Train on your own data",
+                "Save and load adapters",
+                "Tools: Hugging Face, PEFT",
+            ],
+        },
+        {
+            "title": "Lab 4: Image & Multimodal",
+            "points": [
+                "Generate images from text",
+                "Analyze images with vision models",
+                "Style transfer",
+                "Tools: Stable Diffusion, LLaVA",
+            ],
+        },
+        {
+            "title": "Lab 5: AI Agents",
+            "points": [
+                "Build autonomous agents",
+                "Create custom tools",
+                "Multi-step reasoning",
+                "Tools: LangChain, Ollama",
+            ],
+        },
+        {
+            "title": "🎮 Live Playground",
+            "points": [
+                "Try all features interactively",
+                "Real-time experimentation",
+                "No notebook required!",
+            ],
+        },
+    ]
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        #### Lab 1: Text Generation
-        - Generate text with local LLMs
-        - Code generation & explanation
-        - Streaming responses
-        - **Tools:** Ollama, Llama 3.2
-        """)
-
-        st.markdown("""
-        #### Lab 2: RAG (Retrieval-Augmented Generation)
-        - Build a knowledge base
-        - Semantic search
-        - Answer questions from documents
-        - **Tools:** ChromaDB, Embeddings
-        """)
-
-        st.markdown("""
-        #### Lab 3: Model Customization
-        - Fine-tune models with QLoRA
-        - Train on your own data
-        - Save and load adapters
-        - **Tools:** Hugging Face, PEFT
-        """)
-
-    with col2:
-        st.markdown("""
-        #### Lab 4: Image & Multimodal
-        - Generate images from text
-        - Analyze images with vision models
-        - Style transfer
-        - **Tools:** Stable Diffusion, LLaVA
-        """)
-
-        st.markdown("""
-        #### Lab 5: AI Agents
-        - Build autonomous agents
-        - Create custom tools
-        - Multi-step reasoning
-        - **Tools:** LangChain, Ollama
-        """)
-
-        st.markdown("""
-        #### 🎮 Live Playground
-        - Try all features interactively
-        - Real-time experimentation
-        - No notebook required!
-        """)
+    col_a, col_b = st.columns(2)
+    for idx, card in enumerate(lab_cards):
+        target_col = col_a if idx % 2 == 0 else col_b
+        with target_col:
+            st.markdown(
+                f"""
+                <div class="lab-card">
+                    <h4>{card["title"]}</h4>
+                    <ul>
+                        {''.join(f'<li>{p}</li>' for p in card["points"])}
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
 # Lab 1: Text Generation
 elif page == "📚 Lab 1: Text Generation":
