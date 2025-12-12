@@ -26,6 +26,9 @@ bitsandbytes>=0.43.0
 diffusers>=0.28.0
 safetensors>=0.4.0
 
+# Web UI
+streamlit>=1.30.0
+
 # Utilities
 python-dotenv>=1.0.0
 tqdm>=4.66.0
